@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brújula Socioemocional - Jatun Kuraka Otavalo</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts Inter y Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0B1F4D',
+                            darkblue: '#06112C',
+                            red: '#D91B24',
+                            gold: '#D4AF37',
+                            goldlight: '#F3E5AB'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, #0e214d 0%, #06112c 70%, #030818 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Fondo borroso sutil */
+        .bg-institutional {
+            background-image: url('WhatsApp Image 2026-09-27 at 4.49.27 PM.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            filter: blur(35px) opacity(0.12);
+        }
+
+        /* Dial principal de la brújula */
+        .compass-dial {
+            background: radial-gradient(circle, rgba(11, 31, 77, 0.8) 0%, rgba(6, 17, 44, 0.95) 100%);
+            box-shadow: 0 0 60px rgba(217, 27, 36, 0.25), 0 0 30px rgba(214, 175, 55, 0.2), inset 0 0 30px rgba(0,0,0,0.9);
+            border: 4px solid rgba(214, 175, 55, 0.5);
+        }
+
+        /* Imagen del oso ocupando el 100% del círculo interior */
+        .compass-image-full {
+            background-image: url('WhatsApp Image 2026-09-27 at 4.49.27 PM.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Aguja giratoria */
+        .compass-needle {
+            transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center center;
+        }
+
+        /* Botones cardinales */
+        .cardinal-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cardinal-btn:hover {
+            transform: scale(1.12);
+            filter: drop-shadow(0 0 16px rgba(214, 175, 55, 0.9));
+        }
+
+        /* Glow continuo */
+        @keyframes goldGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(214, 175, 55, 0.3), 0 0 50px rgba(217, 27, 36, 0.2); }
+            50% { box-shadow: 0 0 35px rgba(214, 175, 55, 0.6), 0 0 70px rgba(217, 27, 36, 0.4); }
+        }
+
+        .gold-pulse {
+            animation: goldGlow 4s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen justify-between relative selection:bg-brand-red selection:text-white">
+
+    <!-- Capa de Fondo Institucional -->
+    <div class="fixed inset-0 pointer-events-none z-0 bg-institutional"></div>
+
+    <!-- Luces ambientales decorativas -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-red/15 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-gold/15 rounded-full blur-3xl"></div>
+    </div>
+
+    <header class="relative z-10 text-center pt-6 pb-2 px-4 max-w-4xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-darkblue/80 border border-brand-gold/50 text-xs sm:text-sm font-semibold tracking-wider text-brand-goldlight mb-3 backdrop-blur-md shadow-lg">
+            <i class="fa-solid fa-graduation-cap text-brand-gold"></i> Unidad Educativa Jatun Kuraka Otavalo
+        </div>
+        <h1 class="font-heading text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-2 drop-shadow-md">
+            Brújula Socioemocional
+        </h1>
+        <p class="text-slate-300 text-xs sm:text-base max-w-xl mx-auto">
+            Presiona cualquiera de los puntos cardinales (<strong class="text-blue-400">N</strong>, <strong class="text-red-400">S</strong>, <strong class="text-emerald-400">E</strong>, <strong class="text-amber-400">O</strong>) para orientar tu camino escolar y convivencia socioemocional.
+        </p>
+    </header>
+
+    <main class="relative z-10 flex-grow flex items-center justify-center p-4">
+        <div class="relative w-full max-w-[340px] sm:max-w-[480px] aspect-square flex items-center justify-center">
+
+            <!-- Anillos Decorativos Exteriores -->
+            <div class="absolute inset-0 rounded-full border-2 border-dashed border-brand-gold/30 animate-[spin_90s_linear_infinite]"></div>
+            <div class="absolute inset-2 rounded-full border border-brand-red/40"></div>
+
+            <!-- Dial de la Brújula -->
+            <div class="compass-dial relative w-full h-full rounded-full flex items-center justify-center p-8 sm:p-10 backdrop-blur-md gold-pulse">
+
+                <!-- Imagen del Oso Ocupando Todo el Círculo Interior -->
+                <div class="compass-image-full relative w-full h-full flex items-center justify-center overflow-hidden border-2 border-brand-gold/80">
+                    
+                    <!-- Sombra radial suave para mantener visibilidad de la aguja y contraste -->
+                    <div class="absolute inset-0 bg-radial from-transparent via-black/10 to-black/40 pointer-events-none"></div>
+
+                    <!-- Aguja Giratoria de la Brújula -->
+                    <div id="needle" class="compass-needle absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                        <!-- Punta Norte (Roja Institucional) -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full w-0 h-0 
+                                    border-l-[12px] sm:border-l-[16px] border-l-transparent 
+                                    border-r-[12px] sm:border-r-[16px] border-r-transparent 
+                                    border-b-[90px] sm:border-b-[125px] border-b-brand-red 
+                                    filter drop-shadow-[0_0_12px_rgba(217,27,36,0.95)]">
+                        </div>
+                        <!-- Punta Sur (Dorada Institucional) -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 w-0 h-0 
+                                    border-l-[12px] sm:border-l-[16px] border-l-transparent 
+                                    border-r-[12px] sm:border-r-[16px] border-r-transparent 
+                                    border-t-[90px] sm:border-t-[125px] border-t-brand-gold 
+                                    filter drop-shadow-[0_0_12px_rgba(214,175,55,0.85)]">
+                        </div>
+                    </div>
+
+                    <!-- Centro Dorado de la Aguja -->
+                    <div class="relative z-30 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-brand-darkblue border-2 border-brand-gold flex items-center justify-center shadow-2xl shadow-black">
+                        <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-brand-gold animate-pulse"></div>
+                    </div>
+
+                </div>
+
+                <!-- Botón NORTE (N) -->
+                <button onclick="navigate('N', 0)" class="cardinal-btn absolute -top-3 sm:-top-4 left-1/2 -translate-x-1/2 flex flex-col items-center group z-30 focus:outline-none" aria-label="Norte: Regulación Emocional">
+                    <span class="font-heading font-black text-2xl sm:text-4xl tracking-wider text-blue-400 group-hover:text-blue-300 drop-shadow-[0_3px_6px_rgba(0,0,0,0.9)]">N</span>
+                    <span class="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-blue-100 bg-blue-950/95 px-3 py-1 rounded-full border border-blue-400/60 shadow-xl backdrop-blur-md">Regulación Emocional</span>
+                </button>
+
+                <!-- Botón SUR (S) -->
+                <button onclick="navigate('S', 180)" class="cardinal-btn absolute -bottom-3 sm:-bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center group z-30 focus:outline-none" aria-label="Sur: Resolución de Conflictos">
+                    <span class="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-red-100 bg-red-950/95 px-3 py-1 rounded-full border border-red-400/60 shadow-xl backdrop-blur-md">Resolución Conflictos</span>
+                    <span class="font-heading font-black text-2xl sm:text-4xl tracking-wider text-red-500 group-hover:text-red-400 drop-shadow-[0_3px_6px_rgba(0,0,0,0.9)]">S</span>
+                </button>
+
+                <!-- Botón ESTE (E) -->
+                <button onclick="navigate('E', 90)" class="cardinal-btn absolute -right-4 sm:-right-6 top-1/2 -translate-y-1/2 flex flex-col items-center group z-30 focus:outline-none" aria-label="Este: Cuidado del Entorno">
+                    <span class="font-heading font-black text-2xl sm:text-4xl tracking-wider text-emerald-400 group-hover:text-emerald-300 drop-shadow-[0_3px_6px_rgba(0,0,0,0.9)]">E</span>
+                    <span class="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-emerald-100 bg-emerald-950/95 px-3 py-1 rounded-full border border-emerald-400/60 shadow-xl backdrop-blur-md">Cuidado Entorno</span>
+                </button>
+
+                <!-- Botón OESTE (O) -->
+                <button onclick="navigate('O', 270)" class="cardinal-btn absolute -left-4 sm:-left-6 top-1/2 -translate-y-1/2 flex flex-col items-center group z-30 focus:outline-none" aria-label="Oeste: Aseo y Orden">
+                    <span class="font-heading font-black text-2xl sm:text-4xl tracking-wider text-amber-400 group-hover:text-amber-300 drop-shadow-[0_3px_6px_rgba(0,0,0,0.9)]">O</span>
+                    <span class="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-amber-100 bg-amber-950/95 px-3 py-1 rounded-full border border-amber-400/60 shadow-xl backdrop-blur-md">Aseo y Orden</span>
+                </button>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="relative z-10 text-center py-4 px-4 border-t border-brand-gold/30 bg-brand-darkblue/90 backdrop-blur-md">
+        <p class="text-xs sm:text-sm text-brand-goldlight font-semibold">
+            Unidad Educativa Jatun Kuraka Otavalo &copy; Brújula Socioemocional Interactiva
+        </p>
+    </footer>
+
+    <div id="modal-container" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md hidden transition-all duration-300 opacity-0 pointer-events-none">
+        
+        <div id="modal-card" class="bg-brand-darkblue border border-brand-gold/50 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden transform scale-95 transition-all duration-300">
+            
+            <!-- Encabezado del Modal -->
+            <div id="modal-header" class="p-5 sm:p-6 border-b border-slate-800 flex items-center justify-between sticky top-0 z-10 bg-brand-darkblue/95 backdrop-blur-md">
+                <div class="flex items-center gap-3">
+                    <div id="modal-badge" class="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold text-white shadow-md">
+                        <i id="modal-icon" class="fa-solid"></i>
+                    </div>
+                    <div>
+                        <span id="modal-cardinal" class="text-xs font-bold uppercase tracking-wider block">Punto Cardinal</span>
+                        <h2 id="modal-title" class="text-xl sm:text-2xl font-bold font-heading text-white">Título</h2>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors focus:outline-none">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Cuerpo del Modal (Scrollable) -->
+            <div id="modal-body" class="p-5 sm:p-6 overflow-y-auto space-y-4 text-slate-200 text-sm sm:text-base leading-relaxed">
+                <!-- Se llena dinámicamente -->
+            </div>
+
+            <!-- Pie del Modal -->
+            <div class="p-4 border-t border-slate-800 bg-slate-950/60 flex justify-end">
+                <button onclick="closeModal()" class="px-6 py-2.5 rounded-xl bg-brand-red hover:bg-red-700 text-white font-semibold text-sm transition-colors shadow-md focus:outline-none">
+                    Entendido
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Datos de los 4 puntos cardinales
+        const cardinalData = {
+            N: {
+                title: "Regulación Emocional",
+                cardinal: "Punto Norte (N)",
+                icon: "fa-brain",
+                themeColor: "blue",
+                badgeBg: "bg-blue-600",
+                content: `
+                    <p class="text-slate-200">Aprender a gestionar tus emociones te permite responder con claridad en lugar de reaccionar por impulso. Prueba estas técnicas sencillas:</p>
+                    
+                    <div class="grid gap-3 mt-4">
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-blue-500/30">
+                            <h3 class="font-semibold text-blue-300 flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-lungs text-blue-400"></i> Respiración 4-7-8
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-300 mt-1">Inhala por la nariz durante <strong>4 segundos</strong>, retén el aire <strong>7 segundos</strong> y exhala suavemente por la boca en <strong>8 segundos</strong>. Repite 4 veces para calmar tu mente.</p>
+                        </div>
+
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-blue-500/30">
+                            <h3 class="font-semibold text-blue-300 flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-hand text-blue-400"></i> Técnica 5-4-3-2-1 (Anclaje)
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-300 mt-1">Conéctate con el presente nombrando: <strong>5</strong> cosas que ves, <strong>4</strong> que puedes tocar, <strong>3</strong> que escuchas, <strong>2</strong> que puedes oler y <strong>1</strong> que puedes saborear.</p>
+                        </div>
+
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-blue-500/30">
+                            <h3 class="font-semibold text-blue-300 flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-pause text-blue-400"></i> Pausa Consciente & Reestructuración
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-300 mt-1">Detente un instante antes de actuar. Pregúntate: <em>"¿Esta emoción me está ayudando en este momento? ¿Cómo puedo expresarla sin dañarme ni dañar a otros?"</em></p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-700">
+                                <h4 class="font-semibold text-blue-300 text-xs sm:text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-book-bookmark text-blue-400"></i> Diario Emocional
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">Anota cómo te sentiste durante el día para identificar tus detonantes emocionales.</p>
+                            </div>
+                            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-700">
+                                <h4 class="font-semibold text-blue-300 text-xs sm:text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-traffic-light text-blue-400"></i> Semáforo Emocional
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1"><strong>Rojo:</strong> Detente. <strong>Amarillo:</strong> Reflexiona. <strong>Verde:</strong> Actúa de manera asertiva.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            S: {
+                title: "Resolución de Conflictos",
+                cardinal: "Punto Sur (S)",
+                icon: "fa-handshake",
+                themeColor: "red",
+                badgeBg: "bg-red-600",
+                content: `
+                    <p class="text-slate-200">Los desacuerdos son oportunidades para aprender. Sigue estos pasos para resolver un conflicto pacíficamente con otra persona:</p>
+                    
+                    <div class="space-y-3 mt-4">
+                        <div class="flex gap-3 bg-slate-900/80 p-3.5 rounded-xl border border-red-500/30">
+                            <div class="w-7 h-7 rounded-full bg-red-600/30 text-red-400 flex items-center justify-center font-bold text-sm shrink-0">1</div>
+                            <div>
+                                <h3 class="font-semibold text-red-300 text-sm sm:text-base">Pausa Táctica</h3>
+                                <p class="text-xs sm:text-sm text-slate-300">Si la molestia es muy alta, tómense un tiempo a solas para calmarse antes de iniciar la conversación.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 bg-slate-900/80 p-3.5 rounded-xl border border-red-500/30">
+                            <div class="w-7 h-7 rounded-full bg-red-600/30 text-red-400 flex items-center justify-center font-bold text-sm shrink-0">2</div>
+                            <div>
+                                <h3 class="font-semibold text-red-300 text-sm sm:text-base">Escucha Activa sin Interrumpir</h3>
+                                <p class="text-xs sm:text-sm text-slate-300">Escucha a la otra persona con atención y respeto, procurando entender su punto de vista sin juzgar de inmediato.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 bg-slate-900/80 p-3.5 rounded-xl border border-red-500/30">
+                            <div class="w-7 h-7 rounded-full bg-red-600/30 text-red-400 flex items-center justify-center font-bold text-sm shrink-0">3</div>
+                            <div>
+                                <h3 class="font-semibold text-red-300 text-sm sm:text-base">Habla desde la Primera Persona ("Yo siento...")</h3>
+                                <p class="text-xs sm:text-sm text-slate-300">Expresa tus sentimientos sin acusar. En lugar de decir <em>"Tú me haces enojar"</em>, di <em>"Yo me sentí triste cuando ocurrió esto..."</em>.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 bg-slate-900/80 p-3.5 rounded-xl border border-red-500/30">
+                            <div class="w-7 h-7 rounded-full bg-red-600/30 text-red-400 flex items-center justify-center font-bold text-sm shrink-0">4</div>
+                            <div>
+                                <h3 class="font-semibold text-red-300 text-sm sm:text-base">Proponer Acuerdos Mutuos</h3>
+                                <p class="text-xs sm:text-sm text-slate-300">Busquen una solución justa en la que ambas partes cedan un poco para beneficio y tranquilidad de todos.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            E: {
+                title: "Cuidado del Entorno Estudiantil",
+                cardinal: "Punto Este (E)",
+                icon: "fa-school",
+                themeColor: "emerald",
+                badgeBg: "bg-emerald-600",
+                content: `
+                    <p class="text-slate-200">Nuestra institución es nuestro espacio de crecimiento. Cuidar sus instalaciones nos beneficia a todos:</p>
+
+                    <div class="grid gap-3 mt-4">
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-emerald-500/30">
+                            <h3 class="font-semibold text-emerald-300 flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-chair text-emerald-400"></i> Mobiliario
+                            </h3>
+                            <ul class="list-disc list-inside text-xs sm:text-sm text-slate-300 mt-2 space-y-1">
+                                <li>Mantén los pupitres, mesas y sillas limpios y sin rayones.</li>
+                                <li>Evita balancearte en las sillas para prevenir daños y accidentes.</li>
+                                <li>Informa a tus profesores si ves algún mueble deteriorado.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-emerald-500/30">
+                            <h3 class="font-semibold text-emerald-300 flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-building text-emerald-400"></i> Infraestructura
+                            </h3>
+                            <ul class="list-disc list-inside text-xs sm:text-sm text-slate-300 mt-2 space-y-1">
+                                <li>Cuida las paredes, puertas y ventanas de toda la institución.</li>
+                                <li>Respeta las áreas verdes y los jardines sin pisar ni arrancar plantas.</li>
+                                <li>Trata con cuidado las carteleras y materiales decorativos o informativos.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-emerald-500/30">
+                            <h3 class="font-semibold text-emerald-300 flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-laptop text-emerald-400"></i> Espacio Tecnológico
+                            </h3>
+                            <ul class="list-disc list-inside text-xs sm:text-sm text-slate-300 mt-2 space-y-1">
+                                <li>Manipula computadoras y tablets únicamente con manos limpias y secas.</li>
+                                <li>No consumas alimentos ni líquidos cerca de los equipos de cómputo.</li>
+                                <li>Trata con cuidado teclados, mouses y cables; apaga el equipo correctamente.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            O: {
+                title: "Aseo y Orden",
+                cardinal: "Punto Oeste (O)",
+                icon: "fa-broom",
+                themeColor: "amber",
+                badgeBg: "bg-amber-600",
+                content: `
+                    <p class="text-slate-200">El orden y la limpieza crean un ambiente sano y agradable para estudiar y compartir:</p>
+
+                    <div class="grid gap-3 mt-4">
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-amber-500/30">
+                            <h3 class="font-semibold text-amber-300 flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-chalkboard-user text-amber-400"></i> Aulas de Clase
+                            </h3>
+                            <ul class="list-disc list-inside text-xs sm:text-sm text-slate-300 mt-2 space-y-1">
+                                <li>Deposita la basura en sus respectivos contenedores (papel, plástico, orgánico).</li>
+                                <li>Mantén organizada tu área de trabajo y tu mochila.</li>
+                                <li>Acomoda tu silla debajo del escritorio al finalizar cada clase.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-amber-500/30">
+                            <h3 class="font-semibold text-amber-300 flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-tree text-amber-400"></i> Patios y Recreos
+                            </h3>
+                            <ul class="list-disc list-inside text-xs sm:text-sm text-slate-300 mt-2 space-y-1">
+                                <li>Recoge tus envoltorios y desperdicios después del receso.</li>
+                                <li>No arrojes basuras al piso bajo ninguna circunstancia.</li>
+                                <li>Colabora manteniendo limpios las bancas y espacios comunes.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-amber-500/30">
+                            <h3 class="font-semibold text-amber-300 flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-restroom text-amber-400"></i> Baños Sanitarios
+                            </h3>
+                            <ul class="list-disc list-inside text-xs sm:text-sm text-slate-300 mt-2 space-y-1">
+                                <li>Arroja el papel higiénico y toallas en los basureros indicados.</li>
+                                <li>Asegúrate de dejar las llaves del agua bien cerradas.</li>
+                                <li>Mantén las instalaciones limpias pensando en el bienestar de tus compañeros.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        let currentRotation = 0;
+
+        function navigate(cardinal, targetAngle) {
+            const needle = document.getElementById('needle');
+            
+            // Giro fluido en la dirección más corta
+            let diff = (targetAngle - (currentRotation % 360) + 540) % 360 - 180;
+            currentRotation += diff;
+
+            needle.style.transform = `rotate(${currentRotation}deg)`;
+
+            // Mostrar el recuadro informativo tras terminar el giro de la aguja
+            setTimeout(() => {
+                openModal(cardinal);
+            }, 550);
+        }
+
+        function openModal(cardinal) {
+            const data = cardinalData[cardinal];
+            if (!data) return;
+
+            const container = document.getElementById('modal-container');
+            const card = document.getElementById('modal-card');
+            const badge = document.getElementById('modal-badge');
+            const icon = document.getElementById('modal-icon');
+            const cardinalLabel = document.getElementById('modal-cardinal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+
+            badge.className = `w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold text-white shadow-md ${data.badgeBg}`;
+            icon.className = `fa-solid ${data.icon}`;
+            cardinalLabel.textContent = data.cardinal;
+            cardinalLabel.className = `text-xs font-bold uppercase tracking-wider block ${
+                data.themeColor === 'blue' ? 'text-blue-400' :
+                data.themeColor === 'red' ? 'text-red-400' :
+                data.themeColor === 'emerald' ? 'text-emerald-400' : 'text-amber-400'
+            }`;
+            title.textContent = data.title;
+            body.innerHTML = data.content;
+
+            container.classList.remove('hidden');
+            setTimeout(() => {
+                container.classList.remove('opacity-0', 'pointer-events-none');
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const container = document.getElementById('modal-container');
+            const card = document.getElementById('modal-card');
+
+            card.classList.remove('scale-100');
+            card.classList.add('scale-95');
+            container.classList.add('opacity-0', 'pointer-events-none');
+
+            setTimeout(() => {
+                container.classList.add('hidden');
+            }, 300);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        document.getElementById('modal-container').addEventListener('click', (e) => {
+            if (e.target.id === 'modal-container') closeModal();
+        });
+    </script>
+</body>
+</html>
